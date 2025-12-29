@@ -16,10 +16,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="h-screen overflow-hidden">
         <Providers>
-          <ThemeToggle />
-          {children}
+          <div className="flex flex-col h-full w-screen">
+            <div className="p-4">
+              <ThemeToggle />
+            </div>
+            <div className="flex-1 overflow-auto">
+              {children}
+            </div>
+          </div>
         </Providers>
       </body>
     </html>
