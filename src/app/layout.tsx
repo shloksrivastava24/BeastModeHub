@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="h-screen overflow-hidden">
+      <body className="h-screen overflow-y-auto">
         <Providers>
           <div className="h-full flex flex-col">
             {/* Header */}
@@ -49,7 +49,7 @@ export default function RootLayout({
 
 
             {/* Main Content */}
-            <div className="flex-1 overflow-hidden">
+            <div className="flex-1 overflow-auto">
               {children}
             </div>
           </div>
