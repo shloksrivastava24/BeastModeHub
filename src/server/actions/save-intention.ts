@@ -1,6 +1,7 @@
 "use server";
 
 import { getCurrentUser } from "@/lib/auth/current-user";
+import { connectDB } from "@/lib/db/connect";
 import { IntentionModel } from "@/lib/db/intention.model";
 import { IntentionSchema } from "@/lib/db/intention.schema";
 import clientPromise from "@/lib/db/mongodb";
@@ -14,17 +15,18 @@ export async function saveDailyIntention(formData: FormData) {
         userId: user._id.toString(),
         text: formData.get("text"),
         mood: formData.get("mood"),
-        energy: Number(formData.get("energy")),
+        energy: Number(formData.get("energyLevel")),
         date: new Date().toISOString().split("T")[0],
     };
+    console.log(data);
 
     const parsed = IntentionSchema.safeParse(data);
     if (!parsed.success) {
         throw new Error("invalid intention data");
     }
 
-    await clientPromise;
-    await mongoose.connect(process.env.MONGODB_URI!);
+    await connectDB();
+    
 
     await IntentionModel.create(parsed.data);
 

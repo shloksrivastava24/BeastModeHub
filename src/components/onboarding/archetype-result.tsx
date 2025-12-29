@@ -28,7 +28,7 @@ export function ArchetypeResult({ archetype }: ResultProps) {
                     "You master focus, silence, and deep work."}
             </p>
 
-            <Button onClick={handleContinue} className="w-full">
+            <Button onClick={handleContinue} className="w-full cursor-pointer">
                 Enter BeastMode Hub
             </Button>
         </div>

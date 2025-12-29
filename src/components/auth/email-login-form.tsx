@@ -32,7 +32,7 @@ export function EmailLoginForm() {
             />
             <Button
                 type="submit"
-                className="w-full"
+                className="w-full cursor-pointer"
                 disabled={loading}
             >
                 {loading ? (<><ArrowRepeat className="animate-spin"/>sending email</>) : (<><EnvelopeAt className="h-4 w-4"/>continue with email</>)}

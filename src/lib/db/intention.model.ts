@@ -11,7 +11,7 @@ const IntentionSchema = new Schema({
     },
     mood: {
         type: String,
-        enum: ["low", "neutral", "high"],
+        enum: ["bad", "alright", "good"],
         required: true,
     },
     energy: {

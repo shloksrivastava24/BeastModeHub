@@ -7,7 +7,7 @@ export function LoginButton() {
     return (
         <Button 
             onClick={() => signIn("google", {callbackUrl: "/dashboard"})}
-            className="w-full">
+            className="w-full cursor-pointer">
             <i className="bi bi-google"></i>continue with Google
         </Button>
     );

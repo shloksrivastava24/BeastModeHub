@@ -5,7 +5,8 @@ import { useQuizStore } from "@/store/archetype-quiz.store";
 import { Button } from "../ui/button";
 import { calculateArchetype } from "@/lib/onboarding/calculate-archetype";
 import { ArchetypeResult } from "./archetype-result";
-import {OnBoardingProgress} from "@/components/onboarding/onboarding-progress";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Progress } from "../ui/progress";
 
 export function ArchetypeQuiz() {
     const { currentIndex, scores, answerQuestion } = useQuizStore();
@@ -17,30 +18,43 @@ export function ArchetypeQuiz() {
     }
 
     const question = quizQuestions[currentIndex];
+    const progress = Math.round((currentIndex / total) * 100);
 
     return (
-        <div className="max-w-xl space-y-6">
-            <OnBoardingProgress
-                current={currentIndex}
-                total={total}
-            />
-
-            <h2 className="text-xl font-semibold">
-                {question.question}
-            </h2>
-
-            <div className="space-y-3">
-                {question.options.map((option, idx) => (
-                    <Button
-                        key={idx}
-                        variant="outline"
-                        className="w-full justify-start"
-                        onClick={() => answerQuestion(option.scores)}
-                    >
-                        {option.label}
-                    </Button>
-                ))}
-            </div>
+        <div className="flex items-center justify-center min-h-full p-4">
+            <Card className="w-full max-w-2xl">
+                <CardHeader className="space-y-4">
+                    <div className="space-y-2">
+                        <CardDescription>
+                            Question {currentIndex + 1} of {total}
+                        </CardDescription>
+                        <Progress value={progress} className="h-2" />
+                    </div>
+                    <CardTitle className="text-2xl">
+                        {question.question}
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="space-y-3">
+                        {question.options.map((option, idx) => (
+                            <Button
+                                key={idx}
+                                variant="outline"
+                                size="lg"
+                                className="w-full justify-start text-left h-auto py-4 px-6 hover:bg-accent hover:border-primary transition-all cursor-pointer"
+                                onClick={() => answerQuestion(option.scores)}
+                            >
+                                <span className="flex items-center gap-3">
+                                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-muted text-sm font-medium">
+                                        {String.fromCharCode(65 + idx)}
+                                    </span>
+                                    <span className="text-lg">{option.label}</span>
+                                </span>
+                            </Button>
+                        ))}
+                    </div>
+                </CardContent>
+            </Card>
         </div>
     );
 }
