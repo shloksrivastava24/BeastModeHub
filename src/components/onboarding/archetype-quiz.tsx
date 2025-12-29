@@ -41,14 +41,14 @@ export function ArchetypeQuiz() {
                                 key={idx}
                                 variant="outline"
                                 size="lg"
-                                className="w-full justify-start text-left h-auto py-4 px-6 hover:bg-accent hover:border-primary transition-all cursor-pointer"
+                                className="w-full justify-start text-left h-auto py-4 px-6 hover:bg-accent hover:border-primary transition-all cursor-pointer line-clamp-3"
                                 onClick={() => answerQuestion(option.scores)}
                             >
                                 <span className="flex items-center gap-3">
                                     <span className="flex items-center justify-center w-8 h-8 rounded-full bg-muted text-sm font-medium">
                                         {String.fromCharCode(65 + idx)}
                                     </span>
-                                    <span className="text-lg">{option.label}</span>
+                                    <span className="text-lg overflow-x-scroll no-scrollbar">{option.label}</span>
                                 </span>
                             </Button>
                         ))}

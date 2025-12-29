@@ -125,7 +125,7 @@ export function TodoEditor({ existingTodos }: { existingTodos: Todo[] }) {
                                 </>
                             ) : (
                                 <>
-                                    📝 Plan Your Day
+                                    <i className="bi bi-clipboard2-check"></i> Plan Your Day
                                 </>
                             )}
                         </CardTitle>
@@ -197,7 +197,7 @@ export function TodoEditor({ existingTodos }: { existingTodos: Todo[] }) {
 
                                 <Input
                                     value={todo.title}
-                                    disabled
+                                    readOnly
                                     className={`flex-1 ${todo.completed
                                             ? "line-through text-muted-foreground"
                                             : ""

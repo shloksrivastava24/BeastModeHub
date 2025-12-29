@@ -5,6 +5,8 @@ import { CoreHabitModel } from "@/lib/db/core-habit.model";
 import { groq } from "@/lib/ai/groq-client";
 import { getTodaysIntention } from "@/lib/intentions/get-todays-intention";
 import { connectDB } from "@/lib/db/connect";
+import { getLastWeekTodos } from "../queries/get-last-week-todos";
+import { summarizeWeek } from "@/lib/todos/summarize-week";
 
 // Simple return type - just return the array or throw
 export async function generateTodoSuggestions(): Promise<string[]> {
@@ -26,6 +28,9 @@ export async function generateTodoSuggestions(): Promise<string[]> {
         throw new Error("Please set your daily intention first");
     }
 
+    const lastWeekTodos = await getLastWeekTodos(user._id.toString());
+    const weekSummary = summarizeWeek(lastWeekTodos);
+
     const prompt = `
 You are a disciplined productivity assistant.
 
@@ -38,16 +43,27 @@ Energy level: ${intention.energy}/10
 CORE HABITS (fixed for this cycle)
 ${habits.map((h) => `- ${h.title}`).join("\n")}
 
+Past 7-day todos summary:
+- Frequently completed tasks:
+${weekSummary.completedOften.map((t) => `• ${t}`).join("\n")}
+
+- Recently unfinished or stalled tasks:
+${weekSummary.unfinishedThemes.map((t) => `• ${t}`).join("\n")}
+
+- Recurring focus themes:
+${weekSummary.recurringThemes.join(", ") || "none"}
+
 TASK
 Generate a list of TODOs for TODAY only.
 
 RULES
 - Suggest EXACTLY 8 todos.
-- Each todo must be short, specific, and actionable.
+- Each todo must be short, specific, brief and actionable.
 - Todos must support or align with the listed core habits.
 - Todos must be realistic to complete in a single day.
 - Do NOT repeat the habit titles verbatim.
 - Do NOT include explanations or commentary.
+- If past 7 day todos is empty then start from very basic.
 - Tasks should slightly push the user to improve
 
 OUTPUT RULES (STRICT)
